@@ -6,10 +6,13 @@ const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose');
 
 
+
+
 // express session-used for session cookie
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
 const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 
 
@@ -32,13 +35,25 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 
 
+// mongo store  is used store session cookie in db
+
+
 app.use(session({
     name:'Codeial',
     secret: 'blahsomething',
     resave: false,
     saveUninitialized: false,
     cookie: { 
-        maxAge:(1000*60*100) }
+        maxAge:(1000*60*100) },
+
+        store :new MongoDBStore({
+          mongooseConnection: 'mongodb://localhost/codeial_db',
+          autoRemove : 'disabled'
+        },
+        (err,)=>{
+          console.log(err || 'Connect MongoDb setup ok');
+        }
+        )
   }))
 
   
