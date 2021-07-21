@@ -32,3 +32,31 @@ passport.use(new LocalStrategy({
       done(err, user);
     });
   });
+
+
+
+
+  passport.checkAuthentication = (req,res,next)=>{
+    // req.isAuthenticated  passport function check user is signed-In
+    if(req.isAuthenticated()){
+        return next();
+    }
+      return res.redirect('/users/sign-in');
+  }
+
+
+
+  // if user is already login in
+  passport.setAuthenticatedUser = (req,res,next)=>{
+    if(req.isAuthenticated){
+      res.locals.user =  req.user;
+      
+    }
+    next();
+  }
+
+
+
+
+
+module.exports = passport;
