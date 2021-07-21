@@ -15,3 +15,14 @@ module.exports.signUp = (req,res)=>{
         title:'Codial | Sign Up'
     });
 }
+
+// get the signup data
+module.exports.create = (req,res)=>{
+// todo later
+}
+
+
+// get signIn data
+module.exports.createSession = (req,res)=>{
+// todo later
+}
