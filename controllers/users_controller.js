@@ -1,3 +1,5 @@
+const User = require('../models/user')
+
 module.exports.profile = (req,res)=>{
     return res.end('<h1>Users || Profile Page </h1>');
 }
@@ -18,7 +20,20 @@ module.exports.signUp = (req,res)=>{
 
 // get the signup data
 module.exports.create = (req,res)=>{
-// todo later
+    if(req.body.password != req.body.confirm_password){
+        return res.redirect('back');
+    }
+    User.findOne({email:req.body.email},function(err,user){
+        if(err){console.log("User Already Registered"); return }
+        if(!user){
+            User.create(req.body,(err,user)=>{
+                if(err){console.log("User Cannot Be Registered"); return }
+                return res.redirect('/users/sign-in')
+            })
+        }else{ 
+            return res.redirect('back'); 
+        }
+    });
 }
 
 
