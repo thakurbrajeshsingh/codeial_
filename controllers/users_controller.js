@@ -39,5 +39,5 @@ module.exports.create = (req,res)=>{
 
 // get signIn data
 module.exports.createSession = (req,res)=>{
-// todo later
+    return res.redirect('/')
 }
