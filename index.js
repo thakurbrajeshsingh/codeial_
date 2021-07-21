@@ -6,10 +6,12 @@ const Port = 8000;
 const app = express();
 
 
-// middle ware
+// use express routes
 app.use('/',require('./routes'))
 
-
+// setting up view ejs
+app.set('view engine','ejs');
+app.set('views','./views');
 
 
 
