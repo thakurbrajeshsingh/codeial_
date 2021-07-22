@@ -13,6 +13,21 @@ const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const sassMiddleware = require('node-sass-middleware');
+
+
+
+
+// SASS Middle ware
+app.use(sassMiddleware({
+  src: './assets/scss',
+  dest: './assets/css',
+  debug: true,
+  outputStyle: 'extended',
+  prefix:'/css'  // Where prefix is at <link rel="stylesheets" href="prefix/style.css"/>
+}));
+
+
 
 
 
