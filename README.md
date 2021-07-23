@@ -31,10 +31,10 @@
 Install my-project with npm
 
 ```bash
-Clone the project onto your local machine.
-Then cd codeial
-npm install
-npm start
-Visit your app at http://localhost:8000.
+- Clone the project onto your local machine.
+- Then cd codeial_
+- npm install
+- npm start
+- Visit your app at http://localhost:8000.
 ```
     
