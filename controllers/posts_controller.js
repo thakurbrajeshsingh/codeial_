@@ -39,6 +39,17 @@ module.exports.destroy = async function(req,res){
         if(post.user == req.user.id){
             post.remove();
             await Comment.deleteMany({post:req.params.id});
+  
+// check if its  xhr request 
+if(req.xhr){
+    return res.status(200).json({
+        data :{
+            post_id : req.params.id,
+        },message:'Post Deleted!'
+    });
+}
+
+            req.flash('success','Posts and comments deleted:')
                 return res.redirect('back')
         }else{
             return res.redirect('back');
