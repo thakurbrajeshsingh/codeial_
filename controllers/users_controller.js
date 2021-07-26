@@ -24,9 +24,9 @@ module.exports.update = async function (req, res) {
                 user.email = req.body.email;
 
                 if(req.file){
-                    if(user.avatar){
-                        fs.unlinkSync(path.join(__dirname,'..',user.avatar));
-                    }
+                    // if(user.avatar){
+                    //     fs.unlinkSync(path.join(__dirname,'..',user.avatar));
+                    // }
                     // this is saving the path of uploaded file in user(model)
                     user.avatar = User.avatarPath +'/' + req.file.filename;
                 }
