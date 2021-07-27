@@ -3,25 +3,38 @@
     <div class="container">
       <div class="forms-container">
         <div class="signin-signup">
+          
+          <!-- form starts -->
           <form action="/users/create" class="sign-in-form" method="POST">
             <h2 class="title">Sign up</h2>
+
+            <!-- user name Input -->
             <div class="input-field">
               <i class="fas fa-user"></i>
               <input type="text" name="name" placeholder="Enter Name" required>
             </div>
+
+            <!-- email input -->
             <div class="input-field">
               <i class="fas fa-user"></i>
               <input type="email" name="email" placeholder="Enter Email" required>
             </div>
+
+            <!-- password input -->
             <div class="input-field">
               <i class="fas fa-user"></i>
               <input type="password" name="password" placeholder="Enter Password" required>
             </div>
+
+            <!-- confirm password input -->
             <div class="input-field">
               <i class="fas fa-lock"></i>
               <input type="password" name="confirm_password" placeholder="Confirm Password"  required>
             </div>
+
+            <!-- submit button -->
             <input type="submit" value="Sign Up" class="btn solid">
+
             <p class="social-text">Or Sign up with social platforms</p>
             <div class="social-media">
               <a href="#" class="social-icon">

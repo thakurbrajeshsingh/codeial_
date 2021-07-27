@@ -10,25 +10,23 @@ module.exports.profile = function (req, res) {
             profile_user: user
         });
     });
-
 }
 
-
 module.exports.update = async function (req, res) {
-    if (req.user.id == req.params.id){
+    if (req.user.id == req.params.id) {
         try {
             let user = await User.findById(req.params.id);
-            User.uploadAvatar(req,res,function(err){
-                if(err){console.log('********Multer',err)}
+            User.uploadAvatar(req, res, function (err) {
+                if (err) { console.log('********Multer', err) }
                 user.name = req.body.name;
                 user.email = req.body.email;
 
-                if(req.file){
+                if (req.file) {
                     // if(user.avatar){
                     //     fs.unlinkSync(path.join(__dirname,'..',user.avatar));
                     // }
                     // this is saving the path of uploaded file in user(model)
-                    user.avatar = User.avatarPath +'/' + req.file.filename;
+                    user.avatar = User.avatarPath + '/' + req.file.filename;
                 }
                 user.save();
                 return res.redirect('back');
@@ -36,24 +34,21 @@ module.exports.update = async function (req, res) {
             });
 
         } catch (error) {
-        req.flash('error', err);
-        return res.redirect('back');
+            req.flash('error', err);
+            return res.redirect('back');
         }
     }
-
-
-
-
 }
 
 
 // render the sign up page
 module.exports.signUp = function (req, res) {
+    // if user is already signIn redirect to profile Page
     if (req.isAuthenticated()) {
         return res.redirect('/users/profile');
     }
 
-
+    // If user is not signIn Then Render Sign Up
     return res.render('user_sign_up', {
         title: "Codeial | Sign Up"
     })
@@ -79,7 +74,7 @@ module.exports.create = function (req, res) {
     }
 
     User.findOne({ email: req.body.email }, function (err, user) {
-        if (err) { req.flash('error', err); return }
+        if (err) { req.flash('Error', err); return }
 
         if (!user) {
             User.create(req.body, function (err, user) {
@@ -95,17 +90,15 @@ module.exports.create = function (req, res) {
     });
 }
 
-
 // sign in and create a session for the user
 module.exports.createSession = function (req, res) {
     req.flash('success', 'Logged in Successfully');
     return res.redirect('/');
 }
 
+// for log out user
 module.exports.destroySession = function (req, res) {
     req.logout();
     req.flash('success', 'You have logged out!');
-
-
     return res.redirect('/');
 }
