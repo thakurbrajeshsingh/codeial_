@@ -1,5 +1,5 @@
+const queue = require('../config/kue');
 const nodeMailer = require('../config/nodemailer');
-
 
 
 exports.newComment = (comment)=>{
@@ -12,6 +12,7 @@ exports.newComment = (comment)=>{
     html: htmlString, // html body
     },(err,info)=>{
         if(err){console.log('Error in sending Mail'); return }
-        if(info){console.log('Mail Sent Successfully'); return }
+        // if(info){console.log('Mail Sent Successfully');
+         return;
     })
 }
