@@ -1,9 +1,9 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
-const commentMailer = require('../mailers/comments_mailer');
-const commentsEmailWorker = require('../worker/comments_email_worker');
+const commentsMailer = require('../mailers/comments_mailer');
 const queue = require('../config/kue');
 const commentEmailWorker = require('../worker/comments_email_worker');
+const Like = require('../models/likes');
 
 module.exports.create = async function (req, res) {
 
@@ -20,20 +20,19 @@ module.exports.create = async function (req, res) {
             post.comments.push(comment);
             post.save();
 
-
             comment = await comment.populate('user', 'name email').execPopulate();
+            // commentsMailer.newComment(comment);
 
-            // commentMailer.newComment(comment);
-
-            let job = queue.create('emails',comment).save(function(err){
+            let job = queue.create('emails', comment).save(function (err) {
                 if (err) {
-                            console.log('Error In Adding to Queue',err);
-                            return;
-                        }
-                        console.log('Job enqueued',job.id);
-            });
+                    console.log('Error in sending to the queue', err);
+                    return;
+                }
+                console.log('job enqueued', job.id);
+
+            })
+
             if (req.xhr) {
-                // Similar for comments to fetch the user's id!
 
 
                 return res.status(200).json({
@@ -69,6 +68,10 @@ module.exports.destroy = async function (req, res) {
             comment.remove();
 
             let post = Post.findByIdAndUpdate(postId, { $pull: { comments: req.params.id } });
+
+            // CHANGE :: destroy the associated likes for this comment
+            await Like.deleteMany({ likeable: comment._id, onModel: 'Comment' });
+
 
             // send the comment id which was deleted back to the views
             if (req.xhr) {
