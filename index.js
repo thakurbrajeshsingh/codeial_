@@ -22,6 +22,14 @@ const customMiddleware = require('./config/middleware');
 
 
 
+
+// setup socket.io
+const httpServer = require("http").createServer(app);
+const chatSockets = require('./config/chats_sockets').chatSockets(httpServer);
+httpServer.listen(5000);
+console.log('Chat Socket is listening at port 5000');
+
+
 // SASS Middle ware
 app.use(sassMiddleware({
   src: './assets/scss',
