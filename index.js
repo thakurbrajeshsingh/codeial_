@@ -1,5 +1,6 @@
-const cookieParser = require('cookie-parser');
 const express = require('express');
+const env = require('./config/environment');
+const cookieParser = require('cookie-parser');
 const app = express();
 const port = 8000;
 const expressLayouts = require('express-ejs-layouts');
@@ -19,21 +20,22 @@ const sassMiddleware = require('node-sass-middleware');
 // for splash notifcation
 const flash = require('connect-flash');
 const customMiddleware = require('./config/middleware');
-
+const path = require('path');
 
 
 
 // setup the chat server to be used with socket.io
 const chatServer = require('http').Server(app);
-const chatSockets = require('./config/chats_sockets').chatSockets(chatServer);
+const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
 chatServer.listen(5000);
 console.log('chat server is listening on port 5000');
 
 
 // SASS Middle ware
 app.use(sassMiddleware({
-  src: './assets/scss',
-  dest: './assets/css',
+  src:path.join(__dirname,env.asset_path,'/scss'),
+  // src:path.join(__dirname,env.assets_path,'/scss'),
+  dest:path.join(__dirname,env.asset_path,'/css'),
   debug: true,
   outputStyle: 'extended',
   prefix:'/css'  // Where prefix is at <link rel="stylesheets" href="prefix/style.css"/>
@@ -69,7 +71,7 @@ app.set('views', './views');
 
 app.use(session({
     name:'Codeial',
-    secret: 'blahsomething',
+    secret: env.session_cookie_key,
     resave: false,
     saveUninitialized: false,
     cookie: { 
